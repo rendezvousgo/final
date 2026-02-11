@@ -1,0 +1,24 @@
+{
+  "name": "ai-trading-bot",
+  "version": "1.0.0",
+  "description": "AI-powered crypto trading bot with technical indicators",
+  "main": "updown-test.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --max-old-space-size=6144 updown-test.js",
+    "updown": "node --max-old-space-size=6144 updown-test.js",
+    "backtest": "node --max-old-space-size=6144 --expose-gc backtest.js",
+    "backtest:btc": "node --max-old-space-size=6144 backtest.js --symbol BTCUSDT --days 7",
+    "backtest:eth": "node --max-old-space-size=6144 backtest.js --symbol ETHUSDT --days 7",
+    "backtest:xrp": "node --max-old-space-size=6144 backtest.js --symbol XRPUSDT --days 7",
+    "backtest:sol": "node --max-old-space-size=6144 backtest.js --symbol SOLUSDT --days 7",
+    "backtest:30d": "node --max-old-space-size=6144 backtest.js --days 30"
+  },
+  "keywords": ["trading", "crypto", "ai", "technical-analysis"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.5",
+    "technicalindicators": "^3.1.0"
+  }
+}

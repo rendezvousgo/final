@@ -1,0 +1,794 @@
+[
+  {
+    "name": "EMA",
+    "buySignals": 3,
+    "sellSignals": 3,
+    "buyVariants": 5,
+    "sellVariants": 5,
+    "buyOptions": 15,
+    "sellOptions": 15
+  },
+  {
+    "name": "SMA",
+    "buySignals": 3,
+    "sellSignals": 3,
+    "buyVariants": 4,
+    "sellVariants": 4,
+    "buyOptions": 12,
+    "sellOptions": 12
+  },
+  {
+    "name": "MACD",
+    "buySignals": 6,
+    "sellSignals": 6,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 12,
+    "sellOptions": 12
+  },
+  {
+    "name": "BollingerBands",
+    "buySignals": 5,
+    "sellSignals": 3,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 10,
+    "sellOptions": 6
+  },
+  {
+    "name": "WMA",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 4,
+    "sellOptions": 4
+  },
+  {
+    "name": "DEMA",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 4,
+    "sellOptions": 4
+  },
+  {
+    "name": "HMA",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 4,
+    "sellOptions": 4
+  },
+  {
+    "name": "ATR",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 4,
+    "sellOptions": 4
+  },
+  {
+    "name": "PriceVsEMA",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 4,
+    "sellOptions": 4
+  },
+  {
+    "name": "LinearRegressionValue",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 4,
+    "sellOptions": 4
+  },
+  {
+    "name": "VWMA",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 4
+  },
+  {
+    "name": "McGinleyDynamic",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 4
+  },
+  {
+    "name": "RVI",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 4
+  },
+  {
+    "name": "DonchianChannel",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 4
+  },
+  {
+    "name": "OBV",
+    "buySignals": 3,
+    "sellSignals": 3,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 3,
+    "sellOptions": 3
+  },
+  {
+    "name": "PriceChangeN",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 3,
+    "sellVariants": 3,
+    "buyOptions": 3,
+    "sellOptions": 3
+  },
+  {
+    "name": "ROC",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 3,
+    "buyOptions": 2,
+    "sellOptions": 3
+  },
+  {
+    "name": "VortexPlus",
+    "buySignals": 2,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 1,
+    "buyOptions": 4,
+    "sellOptions": 1
+  },
+  {
+    "name": "VortexMinus",
+    "buySignals": 1,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 4
+  },
+  {
+    "name": "LowerLowsCount",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 3,
+    "buyOptions": 2,
+    "sellOptions": 3
+  },
+  {
+    "name": "RSI",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "StochasticK",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "StochasticD",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "WilliamsR",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "Momentum",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "CMO",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "TRIX",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "KST",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "KeltnerChannel",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "HistoricalVolatility",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "ADL",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "VWAP",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "KlingerOscillator",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "PricePosition",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "DistanceFromMA",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "IchimokuTenkan",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "IchimokuKijun",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "IchimokuSenkouA",
+    "buySignals": 2,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "RSquared",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "HigherHighsCount",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 2,
+    "buyOptions": 2,
+    "sellOptions": 2
+  },
+  {
+    "name": "CCI",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "PPO",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 1
+  },
+  {
+    "name": "DeMarker",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "VolumeRatio",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "CMF",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "ForceIndex",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "VolumeOscillator",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "PlusDI",
+    "buySignals": 2,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 1
+  },
+  {
+    "name": "MinusDI",
+    "buySignals": 1,
+    "sellSignals": 2,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "AroonUp",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 1
+  },
+  {
+    "name": "AroonDown",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "AroonOscillator",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 2,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 1
+  },
+  {
+    "name": "PercentRank",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "ZScore",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "BullishRatio",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "HeikinAshiTrend",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "Qstick",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "LinearRegressionSlope",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "ChandeForecastOscillator",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 2,
+    "buyOptions": 1,
+    "sellOptions": 2
+  },
+  {
+    "name": "SqueezeIndicator",
+    "buySignals": 2,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 2,
+    "sellOptions": 1
+  },
+  {
+    "name": "GuppyShort",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "GuppyLong",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "GuppySeparation",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "UltimateOscillator",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "AwesomeOscillator",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "ConnorsRSI",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "SchaffTrendCycle",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "ElderImpulse",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "StandardDeviation",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "ChaikinVolatility",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "UlcerIndex",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "MFI",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "ChaikinOscillator",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "EaseOfMovement",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "IntradayIntensity",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "MarketFacilitationIndex",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "ADX",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "BollingerPercentB",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "BollingerWidth",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "ConsecutiveCandles",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "CandleSizeRatio",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "BalanceOfPower",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "IchimokuSenkouB",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "StandardError",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "StochRSI",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "BullPower",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "BearPower",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  },
+  {
+    "name": "BuySellPressure",
+    "buySignals": 1,
+    "sellSignals": 1,
+    "buyVariants": 1,
+    "sellVariants": 1,
+    "buyOptions": 1,
+    "sellOptions": 1
+  }
+]
