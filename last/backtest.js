@@ -1,14 +1,14 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
- * 4코인 6개월 백테스트 시뮬레이션 (1초 간격)
+ * 4코인 6개월 백테스트 시뮬레이션 (15분 간격)
  * ═══════════════════════════════════════════════════════════════════════════════
  * 
  * - 대상: BTCUSDT, XRPUSDT, SOLUSDT, ETHUSDT (각 코인별 독립 TXT)
  * - 기간: 6개월 전 ~ 현재
- * - 진행: 1초마다 과거 1분씩 전진, 15분 뒤 예측 → 검증 → TXT 누적 저장
+ * - 진행: 15분씩 과거 시간 전진, 15분 뒤 예측 → 검증 → TXT 누적 저장
  * - 전략: 주간 프루닝으로 노이즈 전략 자동 제거
  * 
- * 실행: node backtest.js
+ * 실행: node --max-old-space-size=6144 backtest.js
  */
 
 import { BinanceAPI } from './src/data/binance-api.js';
@@ -147,14 +147,19 @@ class HistoricalDataFetcher {
     }
 
     intervalToMs(interval) {
-        const map = {
-            '1s': 1000, '1m': 60000, '3m': 180000, '5m': 300000,
-            '15m': 900000, '30m': 1800000, '1h': 3600000, '2h': 7200000,
-            '4h': 14400000, '6h': 21600000, '8h': 28800000, '12h': 43200000,
-            '1d': 86400000, '3d': 259200000, '1w': 604800000
-        };
-        return map[interval] || 900000;
+        return intervalToMs(interval);
     }
+}
+
+// 유틸리티: 타임프레임 문자열 → 밀리초 변환
+function intervalToMs(interval) {
+    const map = {
+        '1s': 1000, '1m': 60000, '3m': 180000, '5m': 300000,
+        '15m': 900000, '30m': 1800000, '1h': 3600000, '2h': 7200000,
+        '4h': 14400000, '6h': 21600000, '8h': 28800000, '12h': 43200000,
+        '1d': 86400000, '3d': 259200000, '1w': 604800000
+    };
+    return map[interval] || 900000;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -211,7 +216,13 @@ class CoinBacktester {
         const baseCandles = this.historicalData[BASE_TF];
         if (!baseCandles || baseCandles.length === 0) return null;
 
-        const baseIdx = this.findCandleIndex(baseCandles, currentTime);
+        // [FIX] Bug1: 미완성 캔들 제외 — openTime이 currentTime 이하이더라도
+        // 아직 closeTime이 도래하지 않은 캔들은 미완성이므로 직전 완성 캔들 사용
+        const baseIntervalMs = 15 * 60 * 1000; // 15m
+        const rawIdx = this.findCandleIndex(baseCandles, currentTime);
+        const baseIdx = (rawIdx >= 0 && baseCandles[rawIdx].openTime + baseIntervalMs > currentTime)
+            ? rawIdx - 1
+            : rawIdx;
         if (baseIdx < 50) return null;
 
         const startIdx = Math.max(0, baseIdx - 499);
@@ -240,7 +251,12 @@ class CoinBacktester {
             const tfCandles = this.historicalData[tf];
             if (!tfCandles || tfCandles.length === 0) continue;
 
-            const tfIdx = this.findCandleIndex(tfCandles, currentTime);
+            // [FIX] Bug1: 멀티 타임프레임에서도 미완성 캔들 제외
+            const tfIntervalMs = intervalToMs(tf);
+            const rawTfIdx = this.findCandleIndex(tfCandles, currentTime);
+            const tfIdx = (rawTfIdx >= 0 && tfCandles[rawTfIdx].openTime + tfIntervalMs > currentTime)
+                ? rawTfIdx - 1
+                : rawTfIdx;
             if (tfIdx < 30) continue;
 
             const tfStart = Math.max(0, tfIdx - 199);
@@ -249,11 +265,17 @@ class CoinBacktester {
 
             const tfCloses = tfVisible.map(c => c.close);
             indicatorsByTimeframe[tf] = TechnicalIndicators.calculateAll(tfCloses, tfVisible);
+            // [FIX] 멀티TF 캔들에 bodySize/wick/volume 필드 추가 (recentCandles와 동일 구조)
             candlesByTimeframe[tf] = tfVisible.slice(-50).map(k => ({
                 time: new Date(k.openTime).toISOString(),
                 open: k.open, high: k.high, low: k.low, close: k.close,
                 volume: k.volume,
-                type: k.close > k.open ? 'BULLISH' : 'BEARISH'
+                takerBuyVolume: k.takerBuyBaseVolume ?? null,
+                takerSellVolume: k.takerBuyBaseVolume != null ? Math.max(0, k.volume - k.takerBuyBaseVolume) : null,
+                type: k.close > k.open ? 'BULLISH' : 'BEARISH',
+                bodySize: Math.abs(k.close - k.open),
+                upperWick: k.high - Math.max(k.open, k.close),
+                lowerWick: Math.min(k.open, k.close) - k.low
             }));
         }
 
@@ -402,9 +424,10 @@ class CoinBacktester {
             } else if (appearanceRate >= PRUNE_MAX_APPEARANCE) {
                 shouldPrune = true;
                 reason = `출현율 ${appearanceRate.toFixed(1)}% (≥${PRUNE_MAX_APPEARANCE}%)`;
-            } else if (accuracy >= PRUNE_ACC_LOW && accuracy <= PRUNE_ACC_HIGH) {
+            } else if (stats.total >= PRUNE_MIN_SAMPLES && accuracy >= PRUNE_ACC_LOW && accuracy <= PRUNE_ACC_HIGH) {
+                // [FIX] 프루닝: 최소 샘플 수 미달 전략의 오판 방지
                 shouldPrune = true;
-                reason = `정확도 ${accuracy.toFixed(1)}% (${PRUNE_ACC_LOW}~${PRUNE_ACC_HIGH}% 랜덤구간)`;
+                reason = `정확도 ${accuracy.toFixed(1)}% (${PRUNE_ACC_LOW}~${PRUNE_ACC_HIGH}% 랜덤구간, ${stats.total}회)`;
             }
 
             if (shouldPrune) {
@@ -454,12 +477,23 @@ class CoinBacktester {
             const baseCandles = this.historicalData[BASE_TF];
             if (!baseCandles) return null;
             const idx = this.findCandleIndex(baseCandles, targetTime);
-            return idx >= 0 ? baseCandles[idx].close : null;
+            if (idx < 0) return null;
+            // [FIX] Bug1: 15분봉 fallback에서도 완성된 캔들만 사용
+            const c = baseCandles[idx];
+            if (c.openTime + 15 * 60 * 1000 > targetTime) {
+                return idx > 0 ? baseCandles[idx - 1].close : null;
+            }
+            return c.close;
         }
 
         const idx = this.findCandleIndex(candles1m, targetTime);
         if (idx < 0) return null;
-        return candles1m[idx].close;
+        // [FIX] Bug1: 1분봉에서도 완성된 캔들의 close 사용
+        const c = candles1m[idx];
+        if (c.openTime + 60000 > targetTime) {
+            return idx > 0 ? candles1m[idx - 1].close : null;
+        }
+        return c.close;
     }
 
     // ── 1스텝 예측 처리 ──
@@ -474,10 +508,14 @@ class CoinBacktester {
             timeframes: marketData.supportedTimeframes
         });
 
-        const upCount = analysis.upMatched;
-        const downCount = analysis.downMatched;
-        const upNames = analysis.upNames || [];
-        const downNames = analysis.downNames || [];
+        const rawUpNames = analysis.upNames || [];
+        const rawDownNames = analysis.downNames || [];
+
+        // [FIX] Bug2: 프루닝된 전략을 UP/DOWN 투표에서 제외
+        const upNames = rawUpNames.filter(n => !this.prunedStrategies.has(n));
+        const downNames = rawDownNames.filter(n => !this.prunedStrategies.has(n));
+        const upCount = upNames.length;
+        const downCount = downNames.length;
 
         // 방향 결정
         const direction = upCount > downCount ? 'UP' : downCount > upCount ? 'DOWN' : 'NEUTRAL';
@@ -529,9 +567,8 @@ class CoinBacktester {
         };
         this.results.push(result);
 
-        // 전략별 통계 누적 (프루닝된 전략은 스킵)
+        // 전략별 통계 누적 (upNames/downNames는 이미 프루닝 필터 완료)
         for (const name of upNames) {
-            if (this.prunedStrategies.has(name)) continue;
             if (!this.strategyStats[name]) {
                 this.strategyStats[name] = {
                     direction: 'UP', name,
@@ -543,7 +580,6 @@ class CoinBacktester {
             if (actualResult === 'UP') this.strategyStats[name].correct++;
         }
         for (const name of downNames) {
-            if (this.prunedStrategies.has(name)) continue;
             if (!this.strategyStats[name]) {
                 this.strategyStats[name] = {
                     direction: 'DOWN', name,
@@ -646,7 +682,9 @@ async function main() {
     const fetcher = new HistoricalDataFetcher(binance);
 
     globalEndTime = Date.now();
-    globalStartTime = globalEndTime - MONTHS_BACK * 30 * 24 * 60 * 60 * 1000;
+    // [FIX] 시간 정렬: 15분 캔들 경계에 맞춤 (미정렬 시 예측~검증 간격이 15~29분으로 가변)
+    const rawStart = globalEndTime - MONTHS_BACK * 30 * 24 * 60 * 60 * 1000;
+    globalStartTime = Math.ceil(rawStart / STEP_MS) * STEP_MS;
     const lastPredTime = globalEndTime - HORIZON_MS;
 
     const totalSteps = Math.ceil((lastPredTime - globalStartTime) / STEP_MS);
@@ -657,7 +695,7 @@ async function main() {
     console.log('═'.repeat(70));
     console.log(`   코인: ${SYMBOLS.map(s => s.replace('USDT', '')).join(', ')}`);
     console.log(`   기간: ${new Date(globalStartTime).toISOString().slice(0, 10)} ~ ${new Date(globalEndTime).toISOString().slice(0, 10)}`);
-    console.log(`   진행: ${TICK_MS / 1000}초마다 과거 15분 전진`);
+    console.log(`   진행: 과거 15분씩 전진 (TICK_MS=${TICK_MS}ms)`);
     console.log(`   총 예측 단계: ${totalSteps.toLocaleString()}개`);
     console.log(`   예상 소요: ~${fmtTime(estimatedSec)}`);
     console.log('═'.repeat(70));
@@ -699,7 +737,7 @@ async function main() {
     // 2단계: 3초 간격 시뮬레이션 루프
     // ═══════════════════════════════════════════════════════
 
-    console.log('\n📊 2단계: 백테스트 시뮬레이션 (3초 간격)');
+    console.log('\n📊 2단계: 백테스트 시뮬레이션 (15분 스텝, 최대 속도)');
     console.log('─'.repeat(50));
 
     let currentTime = globalStartTime;
@@ -750,10 +788,9 @@ async function main() {
         const avgStepSec = elapsed / step;
         const remaining = (totalSteps - step) * avgStepSec;
 
+        // [FIX] Bug3: 콘솔에서도 aggTotal/aggCorrect 누적 카운터 사용
         const coinSummaries = globalBacktesters.map(bt => {
-            const t = bt.results.length;
-            const c = bt.results.filter(r => r.correct).length;
-            const acc = t > 0 ? ((c / t) * 100).toFixed(1) : '0';
+            const acc = bt.aggTotal > 0 ? ((bt.aggCorrect / bt.aggTotal) * 100).toFixed(1) : '0';
             return `${bt.coinLabel}:${acc}%`;
         }).join(' | ');
 
@@ -788,11 +825,10 @@ async function main() {
     console.log('\n═'.repeat(70));
     console.log('✅ 백테스트 완료');
     console.log('═'.repeat(70));
+    // [FIX] Bug3: 최종 요약에서도 aggTotal/aggCorrect 사용
     for (const bt of globalBacktesters) {
-        const t = bt.results.length;
-        const c = bt.results.filter(r => r.correct).length;
-        const acc = t > 0 ? ((c / t) * 100).toFixed(1) : '0';
-        console.log(`   ${bt.coinLabel}: ${acc}% (${c}/${t}) → ${bt.summaryFile}`);
+        const acc = bt.aggTotal > 0 ? ((bt.aggCorrect / bt.aggTotal) * 100).toFixed(1) : '0';
+        console.log(`   ${bt.coinLabel}: ${acc}% (${bt.aggCorrect}/${bt.aggTotal}) → ${bt.summaryFile}`);
     }
     console.log('═'.repeat(70));
 }
@@ -801,13 +837,12 @@ async function main() {
 
 process.on('SIGINT', () => {
     console.log('\n\n🛑 백테스트 중단... 현재까지 결과 저장');
+    // [FIX] Bug3: SIGINT에서도 aggTotal/aggCorrect 사용
     for (const bt of globalBacktesters) {
-        if (bt.results.length > 0) {
+        if (bt.aggTotal > 0) {
             bt.saveSummarySync(globalStartTime, globalEndTime);
-            const t = bt.results.length;
-            const c = bt.results.filter(r => r.correct).length;
-            const acc = t > 0 ? ((c / t) * 100).toFixed(1) : '0';
-            console.log(`   💾 ${bt.coinLabel}: ${acc}% (${c}/${t}) → ${bt.summaryFile}`);
+            const acc = bt.aggTotal > 0 ? ((bt.aggCorrect / bt.aggTotal) * 100).toFixed(1) : '0';
+            console.log(`   💾 ${bt.coinLabel}: ${acc}% (${bt.aggCorrect}/${bt.aggTotal}) → ${bt.summaryFile}`);
         }
     }
     process.exit(0);
@@ -821,7 +856,7 @@ main().catch(err => {
     console.error('❌ 백테스트 실패:', err);
     // 오류 시에도 결과 저장 시도
     for (const bt of globalBacktesters) {
-        if (bt.results.length > 0) {
+        if (bt.aggTotal > 0) {
             bt.saveSummarySync(globalStartTime, globalEndTime);
         }
     }
